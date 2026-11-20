@@ -36,7 +36,7 @@ h2{font-size:22px;margin:0 0 14px;letter-spacing:-.3px}
 .card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:16px}
 .card:hover{border-color:rgba(255,106,0,.6)}
 .brand{display:flex;align-items:center;gap:10px;margin-bottom:10px}
-.dot{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;font-weight:700;color:var(--black);flex:none}
+.dot{width:34px;height:34px;border-radius:10px;object-fit:cover;background:#fff;flex:none;box-shadow:0 0 0 1px rgba(255,255,255,.12)}
 .sub{color:var(--mute);font-size:13px}
 .section{margin-top:38px}
 .tabs{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap}
@@ -73,10 +73,10 @@ footer{margin-top:46px;color:var(--mute);font-size:12.5px;border-top:1px solid v
       <button class="btn ghost" onclick="document.getElementById('market').scrollIntoView({behavior:'smooth'})">Browse swaps</button>
     </div>
     <div class="swap-demo" aria-label="Example swap">
-      <div class="coin"><div><div class="sub">You give</div><b>1,200 pts</b></div><div class="dot" style="background:#e51636;color:#fff">CF</div></div>
+      <div class="coin"><div><div class="sub">You give</div><b>1,200 pts</b></div><img class="dot" src="logos/cfa.png" alt="Chick-fil-A One logo"></div>
       <div class="arrow">⇅</div>
-      <div class="coin"><div><div class="sub">You get</div><b>150 Stars</b></div><div class="dot" style="background:#00704a;color:#fff">SB</div></div>
-      <p class="sub" style="margin:12px 0 0">Example rate based on each program's typical reward value. Concept demo: brands shown as examples only.</p>
+      <div class="coin"><div><div class="sub">You get</div><b>150 Stars</b></div><img class="dot" src="logos/sbux.png" alt="Starbucks Rewards logo"></div>
+      <p class="sub" style="margin:12px 0 0">Example rate based on each program's typical reward value. Concept demo: not affiliated with these brands.</p>
     </div>
   </section>
 
@@ -113,19 +113,19 @@ footer{margin-top:46px;color:var(--mute);font-size:12.5px;border-top:1px solid v
     </div>
   </section>
 
-  <footer>PointSwap is a concept prototype by Maneeshkumar Lillyprabhu. Brand names are illustrative and not affiliated; balances live only in your browser.</footer>
+  <footer>PointSwap is a concept prototype by Maneeshkumar Lillyprabhu. Brand names and logos belong to their owners and are shown for illustration only; PointSwap is not affiliated with them. Balances live only in your browser.</footer>
 </div>
 <div class="toast" id="toast" role="status"></div>
 
 <script>
 // Value of one point in US cents (illustrative): used to suggest fair swaps.
 const PROGRAMS = {
-  cfa: { name: "Chick-fil-A One", unit: "pts", short: "CF", color: "#e51636", fg: "#fff", cents: 0.4 },
-  sbux: { name: "Starbucks Rewards", unit: "Stars", short: "SB", color: "#00704a", fg: "#fff", cents: 3.2 },
-  air: { name: "SkyMiles", unit: "miles", short: "SM", color: "#1d4ed8", fg: "#fff", cents: 1.1 },
-  movie: { name: "Stubs Movie Club", unit: "pts", short: "MC", color: "#facc15", fg: "#0a0a0a", cents: 0.6 },
-  beauty: { name: "Beauty Insider", unit: "pts", short: "BI", color: "#ffffff", fg: "#0a0a0a", cents: 0.5 },
-  hotel: { name: "Hotel Honors", unit: "pts", short: "HH", color: "#ff6a00", fg: "#0a0a0a", cents: 0.45 },
+  cfa: { name: "Chick-fil-A One", logo: "logos/cfa.png", unit: "pts", short: "CF", color: "#e51636", fg: "#fff", cents: 0.4 },
+  sbux: { name: "Starbucks Rewards", logo: "logos/sbux.png", unit: "Stars", short: "SB", color: "#00704a", fg: "#fff", cents: 3.2 },
+  air: { name: "Delta SkyMiles", logo: "logos/air.png", unit: "miles", short: "SM", color: "#1d4ed8", fg: "#fff", cents: 1.1 },
+  movie: { name: "AMC Stubs", logo: "logos/movie.png", unit: "pts", short: "MC", color: "#facc15", fg: "#0a0a0a", cents: 0.6 },
+  beauty: { name: "Sephora Beauty Insider", logo: "logos/beauty.png", unit: "pts", short: "BI", color: "#ffffff", fg: "#0a0a0a", cents: 0.5 },
+  hotel: { name: "Hilton Honors", logo: "logos/hotel.png", unit: "pts", short: "HH", color: "#ff6a00", fg: "#0a0a0a", cents: 0.45 },
 };
 const fmt = n => Math.round(n).toLocaleString();
 const fair = (from, amt, to) => amt * PROGRAMS[from].cents / PROGRAMS[to].cents;
@@ -143,7 +143,7 @@ let offers = store.get("offers", [
 ]);
 let filter = "all";
 const $ = id => document.getElementById(id);
-const dot = k => `<div class="dot" style="background:${PROGRAMS[k].color};color:${PROGRAMS[k].fg}">${PROGRAMS[k].short}</div>`;
+const dot = k => `<img class="dot" src="${PROGRAMS[k].logo}" alt="${PROGRAMS[k].name} logo">`;
 function toast(msg) { const t = $("toast"); t.textContent = msg; t.classList.add("show"); clearTimeout(t._h); t._h = setTimeout(() => t.classList.remove("show"), 2600); }
 function save() { store.set("wallet", wallet); store.set("offers", offers); }
 
